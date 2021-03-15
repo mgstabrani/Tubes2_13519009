@@ -101,8 +101,6 @@ Implementasi Graf
 
     {[b,c,d], [a c e f g], [a b f g], .....}
     
-
-///////////////
 in c++
 class Graph
 {
