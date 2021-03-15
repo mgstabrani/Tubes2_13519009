@@ -118,15 +118,15 @@ Fungsi-Fungsi :
 
 
 
-List rekomendasi
-    - Bisa menggunakan Implementasi graf di atas.
+    List rekomendasi
+        - Bisa menggunakan Implementasi graf di atas.
 
-Lintasan Eksplorasi
-    -array of node
-    - lintasan [2, 0, 3, 1, 2]
+    Lintasan Eksplorasi
+        -array of node
+        - lintasan [2, 0, 3, 1, 2]
 
-    index 0 : degree
-    index 1-... : Lintasan
+        index 0 : degree
+        index 1-... : Lintasan
 
 
 
@@ -140,3 +140,8 @@ Pembagian Tugas :
     7 : Yudi
     8 : facthur
     9 : facthur
+
+
+DEADLINE
+    cepat 20 Maret
+    lambat 21 Maret
