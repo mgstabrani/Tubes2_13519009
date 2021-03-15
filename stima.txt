@@ -106,4 +106,15 @@ Implementasi Graf
 
 
 
+List rekomendasi
+    - Bisa menggunakan Implementasi graf di atas.
+
+Lintasan Eksplorasi
+    -array of node
+    - lintasan [2, 0, 3, 1, 2]
+
+    index 0 : degree
+    index 1-... : Lintasan
+
+
     
