@@ -103,6 +103,29 @@ Implementasi Graf
     
 
 ///////////////
+in c++
+class Graph
+{
+    private:
+        int numOfNode;
+        string *node;
+        int *numOfConnectedNode; // 
+        int *connectedNode; // (numOfNode*numOfNode)
+    
+    public:
+        Graph(int);
+        Graph(const Graph&);
+        Graph& operator=(const Graph&);
+        ~Graph();
+        void addNode(string nod);
+        string getNode(int idxNode);
+        void addConnectedNode(int idxNode, int idxConnectNode);
+        int getNumOfNode();
+        int getNumOfConnectedNode(int idxNode);
+        int getIdxConnectedNode(int idxNode, int idxConnect);
+        string getConnectedNode(int idxNode, int idxConnect);
+        void printGraph();
+}
 
 
 
