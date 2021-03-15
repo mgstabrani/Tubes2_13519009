@@ -69,61 +69,51 @@ Fungsi-Fungsi :
     jika di tahap 6 sampai 10, user melakukan langkah 1, maka balik lagi ke atas
     
 
-Implementasi Graf
-1. file .txt
-    1. numOfEdge
-    2. node1, node2
+8.    Implementasi Graf
+    1. file .txt
+        1. numOfEdge
+        2. node1, node2
 
-2. Program
-//////////////
-    array of node;
+    2. Program
+        [a, b, c, d, e, f, g, h]
+        [3, 6, 4, 3, 3, 5, 2, 2]
+        
+        [1, 1, 1, 1, 0, 1, 1, 0]
 
-    struct Edge
-        index node1 
-        index node2
-    
-    Graf = array of Edge
-////////////////
-    <DIPILIH>
-    [a, b, c, d, e, f, g, h]
-    [3, 6, 4, 3, 3, 5, 2, 2]
-    
-    [1, 1, 1, 1, 0, 1, 1, 0]
+        0 : [1, 3, 4] 
+        1 : [0, 2, 4, 5, 6, 1]
+        2 : [0, 1, 5, 6]
+        3 : [0, 5, 6]
+        4 : [1, 5, 7]
+        5 : [1, 2, 3, 4, 7]
+        6 : [2, 3]
+        7 : [3, 4]
 
-    0 : [1, 2, 3] 
-    1 : [0, 2, 4, 5, 6, 1]
-    2 : [0, 1, 5, 6]
-    3 : [0, 5, 6]
-    4 : [1, 5, 7]
-    5 : [1, 2, 3, 4, 7]
-    6 : [2, 3]
-    7 : [3, 4]
-
-    {[b,c,d], [a c e f g], [a b f g], .....}
-    
-in c++
-class Graph
-{
-    private:
-        int numOfNode;
-        string *node;
-        int *numOfConnectedNode; // 
-        int *connectedNode; // (numOfNode*numOfNode)
-    
-    public:
-        Graph(int);
-        Graph(const Graph&);
-        Graph& operator=(const Graph&);
-        ~Graph();
-        void addNode(string nod);
-        string getNode(int idxNode);
-        void addConnectedNode(int idxNode, int idxConnectNode);
-        int getNumOfNode();
-        int getNumOfConnectedNode(int idxNode);
-        int getIdxConnectedNode(int idxNode, int idxConnect);
-        string getConnectedNode(int idxNode, int idxConnect);
-        void printGraph();
-}
+        {[b,c,d], [a c e f g], [a b f g], .....}
+        
+        in c++
+        class Graph
+        {
+            private:
+                int numOfNode;
+                string *node;
+                int *numOfConnectedNode; // 
+                int *connectedNode; // (numOfNode*numOfNode)
+            
+            public:
+                Graph(int);
+                Graph(const Graph&);
+                Graph& operator=(const Graph&);
+                ~Graph();
+                void addNode(string nod);
+                string getNode(int idxNode);
+                void addConnectedNode(int idxNode, int idxConnectNode);
+                int getNumOfNode();
+                int getNumOfConnectedNode(int idxNode);
+                int getIdxConnectedNode(int idxNode, int idxConnect);
+                string getConnectedNode(int idxNode, int idxConnect);
+                void printGraph();
+        }
 
 
 
