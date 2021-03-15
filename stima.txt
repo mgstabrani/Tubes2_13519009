@@ -13,7 +13,7 @@ Fungsi-Fungsi :
 2. DFS Friend Recommendation
     - Membentuk list rekomendasi
         inp : Graf
-        out : List
+        out : Graph rekomendasi;
 
 3. DFS Explore Friend
     - Membentuk list -> lintasan Explore
@@ -23,7 +23,7 @@ Fungsi-Fungsi :
 4. BFS Friend Recommendation
     - Membentuk list rekomendasi
         inp : Graf
-        out : List
+        out : Graph rekomendasi
 
 5. BFS Explore Friend
     - Membentuk List -> lintasan Explore 
@@ -44,13 +44,14 @@ Fungsi-Fungsi :
         inp : List
         out : Tampilan lintasan
 
-7. Logika Main Program
+7. Event Handler
     - Respon Event (graph file, algorithm, chooseAccount, explore friends, submit)
     - Drop down graf node
         inp : graf
         out : node (drop down)
-    
-    
+
+
+8. Logika Main Program
     1. Browse_Click
     2. reset(layar) // yang ditampilkan cuma s1
     3. input(file)
@@ -69,7 +70,7 @@ Fungsi-Fungsi :
     jika di tahap 6 sampai 10, user melakukan langkah 1, maka balik lagi ke atas
     
 
-8.    Implementasi Graf
+9. Implementasi Graf
     1. file .txt
         1. numOfEdge
         2. node1, node2
@@ -128,4 +129,14 @@ Lintasan Eksplorasi
     index 1-... : Lintasan
 
 
-    
+
+Pembagian Tugas :
+    1 : Tabrani
+    2 : facthur
+    3 : Tabrani
+    4 : Yudi
+    5 : Tabrani
+    6 : Yudi
+    7 : Yudi
+    8 : facthur
+    9 : facthur
