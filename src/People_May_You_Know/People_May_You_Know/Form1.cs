@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 
 namespace People_May_You_Know
 {
@@ -45,11 +44,6 @@ namespace People_May_You_Know
 
         private void submit()
         {
-            if (accountNodeDropDown.SelectedIndex < 0)
-            {
-                return;
-            }
-
             Console.Out.WriteLine("Submit!!");
             if (algorithm == "bfs")
                 bfsRecommendationFriends();
@@ -413,17 +407,6 @@ namespace People_May_You_Know
         private void browseButton_Click(object sender, EventArgs e)
         {
             browse();
-
-            OpenFileDialog fdlg = new OpenFileDialog();
-            fdlg.Title = "C# Corner Open File Dialog";
-            fdlg.InitialDirectory = @"c:\";
-            fdlg.Filter = "All files (*.*)|*.*|All files (*.*)|*.*";
-            fdlg.FilterIndex = 2;
-            fdlg.RestoreDirectory = true;
-            if (fdlg.ShowDialog() == DialogResult.OK)
-            {
-                textBox1.Text = fdlg.FileName;
-            }
         }
         private void submitButton_Click(object sender, EventArgs e)
         {
@@ -469,23 +452,111 @@ namespace People_May_You_Know
 
     public class Graph
     {
-        public Graph()
-        {
-
+        protected int numOfNode;
+        protected List<string> node;
+        protected List<int> numOfConnectedNode; // 
+        protected List<List<int>> connectedNode; // (numOfNode*numOfNode)
+        
+        public Graph(){
+            this.numOfNode = 0;
+            this.node = new List<string>();
+            this.numOfConnectedNode = new List<int>();
+            this.connectedNode = new List<List<int>>();
         }
 
-        int getNumOfConnect(int idx)
-        {
-            return 0;
-        }
-        int getNode(int idx)
-        {
-            return 0;
+        // public Graph(const Graph& graf){
+        //     this.numOfNode = graf.numOfNode;
+        //     this.node = new List<string>();
+        //     for(int i = 0; i < this.numOfNode; i++){
+        //         mode.Add(graf.node[i]);
+        //     }
+        // }
+
+        // //     this.numOfConnectedNode = new int[255];
+        // //     for(int i = 0; i < this.numOfNode; i++){
+        // //         this.numOfConnectedNode[i] = graf.numOfConnectedNode[i];
+        // //     }
+
+        // //     this.connectedNode = new int[255][255];
+        // //     for(int i = 0; i < this.numOfNode; i++){
+        // //         for(int j = 0; j < this.numOfConnectedNode[i]; j++){
+        // //             this.connectedNode[i][j] = graf.connectedNode[i][j];
+        // //         }
+        // //     }
+        // // }
+            
+        // // public Graph& operator=(const Graph&){
+        // //     this.numOfNode = graf.numOfNode;
+        // //     for(int i = 0; i < this.numOfNode; i++){
+        // //         mode[i] = graf.node[i];
+        // //     }
+
+        // //     for(int i = 0; i < this.numOfNode; i++){
+        // //         this.numOfConnectedNode[i] = graf.numOfConnectedNode[i];
+        // //     }
+
+        // //     for(int i = 0; i < this.numOfNode; i++){
+        // //         for(int j = 0; j < this.numOfConnectedNode[i]; j++){
+        // //             this.connectedNode[i][j] = graf.connectedNode[i][j];
+        // //         }
+        // //     }
+        // // }
+        
+        // public ~Graph(){
+        //     delete this.node;
+        //     delete this.numOfConnectedNode;
+        //     delete this.connectedNode;
+        // }
+            
+        public void addNode(string node){
+            this.node.Add(node);
+            this.numOfNode++;
+            connectedNode.Add(new List<int>());
+            this.numOfConnectedNode.Add(0);
         }
 
-        int getConnectedNode(int idx, int idxConnect)
-        {
-            return 0;
+        public string getNode(int idxNode){
+            return this.node[idxNode];
+        }
+
+        public void addConnectedNode(int idxNode, int idxConnectNode){
+            this.numOfConnectedNode[idxNode]++;
+            this.connectedNode[idxNode].Add(idxConnectNode);
+        }
+
+        public int getNumOfNode(){
+            return this.numOfNode;
+        }
+
+        public int getNumOfConnectedNode(int idxNode){
+            return this.numOfConnectedNode[idxNode];
+        }
+
+        public int getIdxConnectedNode(int idxNode, int idxConnect){
+            return connectedNode[idxNode][idxConnect];
+        }
+
+        public string getConnectedNode(int idxNode, int idxConnect){
+            return node[this.getIdxConnectedNode(idxNode,idxConnect)];
+        }
+
+        public void print(){
+            for(int i = 0; i < this.numOfNode; i++){
+                Console.Write(i + ": ");
+                for(int j = 0; j < this.numOfConnectedNode[i]; j++){
+                    Console.Write(connectedNode[i][j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public int getIdxNode(string node){
+            for(int i = 0; i < this.numOfNode; i++){
+                if(this.node[i] == node){
+                    return i;
+                }
+            }
+            return -1;
         }
     }
 }
