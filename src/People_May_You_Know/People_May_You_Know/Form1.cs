@@ -24,20 +24,7 @@ namespace People_May_You_Know
         public main()
         {
             InitializeComponent();
-            //int numOfNode = 8;
-            string[] node = { "A", "B", "C", "D", "E", "F", "G", "H" };
-            int[] numOfConnectedNode = { 3, 4, 4, 3, 3, 5, 2, 2 };
-            int[,] connectedNode = {
-                {1, 2, 3, -1, -1},
-                {0, 2, 4, 5, -1},
-                {0, 1, 5, 6, -1},
-                {0, 5, 6, -1, -1},
-                {1, 5, 7, -1, -1},
-                {1, 2, 3, 4, 7},
-                {2, 3, -1, -1, -1},
-                {4, 5, -1, -1, -1,} };
-            showGraph(node, numOfConnectedNode, connectedNode);
-            setNodeDropDownList(node);
+            alertLabel.Text = "";
         }
 
 
@@ -57,8 +44,23 @@ namespace People_May_You_Know
            
             if (fdlg.ShowDialog() == DialogResult.OK)
             {
-                convertToGraph(fdlg.FileName);
-                textBox1.Text = fdlg.FileName;
+                
+                filePathText.Text = fdlg.FileName;
+                convertToGraph(filePathText.Text);
+
+                if (graphReady)
+                {
+                    showGraphVisualization(globalGraph);
+                    setNodeDropDownList(globalGraph);
+                    
+                    resetRecommendationPanel();
+                }
+                else
+                {
+                    resetGraphVisualization();
+                    resetNodeDropDownList();
+                    resetRecommendationPanel();
+                }
             }
 
         }
@@ -67,69 +69,61 @@ namespace People_May_You_Know
             globalGraph = new Graph();
             graphReady = false;
 
-            
-            
-            string[] lines = File.ReadAllLines(fileName);
-
-            /*
-            if (file[file.Length - 1] != '\n')
-                file += '\n';
-            
-            Console.Write(file);
-            
-
-            while(file[i] != '\n')
+            try
             {
-                tmp += file[i];
-                i++;
-            }
+                string[] lines = File.ReadAllLines(fileName);
 
-            */
-
-            string count = lines[0];
-            int n = Int32.Parse(count);
+                string count = lines[0];
+                int n = Int32.Parse(count);
 
 
-            string node = "";
-            for (int j = 1; j < n+1; j++)
-            {
-                int idxNodeFrom = -1;
-                string line = lines[j] + '\n';
-                //Console.Write(line);
-                for (int i = 0; i < line.Length; i++)
+                string node = "";
+                for (int j = 1; j < n + 1; j++)
                 {
-                    if (line[i] == '\n')
+                    int idxNodeFrom = -1;
+                    string line = lines[j] + '\n';
+                    //Console.Write(line);
+                    for (int i = 0; i < line.Length; i++)
                     {
-                        if (globalGraph.getIdxNode(node) == -1)
+                        if (line[i] == '\n')
                         {
-                            globalGraph.addNode(node);
+                            if (globalGraph.getIdxNode(node) == -1)
+                            {
+                                globalGraph.addNode(node);
+                            }
+                            globalGraph.addConnectedNode(idxNodeFrom, globalGraph.getIdxNode(node));
+                            globalGraph.addConnectedNode(globalGraph.getIdxNode(node), idxNodeFrom);
+                            node = "";
                         }
-                        globalGraph.addConnectedNode(idxNodeFrom, globalGraph.getIdxNode(node));
-                        globalGraph.addConnectedNode(globalGraph.getIdxNode(node), idxNodeFrom);
-                        node = "";
-                    }
-                    else if (line[i] == ',')
-                    {
-                        //Console.WriteLine(" --> " + node);
-                        if (globalGraph.getIdxNode(node) == -1)
+                        else if (line[i] == ',')
                         {
-                            globalGraph.addNode(node);
+                            //Console.WriteLine(" --> " + node);
+                            if (globalGraph.getIdxNode(node) == -1)
+                            {
+                                globalGraph.addNode(node);
 
+                            }
+                            idxNodeFrom = globalGraph.getIdxNode(node);
+                            node = "";
                         }
-                        idxNodeFrom = globalGraph.getIdxNode(node);
-                        node = "";
-                    }
-                    else
-                    {
-                        //Console.Write(file[i]);
-                        node += line[i];
+                        else
+                        {
+                            //Console.Write(file[i]);
+                            node += line[i];
+                        }
                     }
                 }
+
+                graphReady = true;
+                //Console.WriteLine("Graph is Ready!!");
+                //globalGraph.print();
+            }
+            catch (Exception e)
+            {
+                graphReady = false;
             }
 
-            graphReady = true;
-            //Console.WriteLine("Graph is Ready!!");
-            globalGraph.print();
+            
         }
 
 
@@ -138,11 +132,35 @@ namespace People_May_You_Know
 
         private void submit()
         {
-            Console.Out.WriteLine("Submit!!");
+            if (!graphReady)
+            {
+                showAlert("Graph is not ready!!");
+                return;
+            }
+            else if (algorithm == "none")
+            {
+                showAlert("Algorithm is not ready!!");
+                return;
+            }
+            else if (accountNodeDropDown.SelectedIndex < 0 || exploreNodeDropDown.SelectedIndex < 0)
+            {
+                showAlert("Account is not ready!!");
+                return;
+            }
+
+            showAlert("");
+
+            //Console.Out.WriteLine("Submit!!");
+
             if (algorithm == "bfs")
-                bfsRecommendationFriends();
+                bfsRecommendationFriends(globalGraph, accountNodeDropDown.SelectedIndex);
             else if (algorithm == "dfs")
-                dfsRecommendationFriends();
+                dfsRecommendationFriends(globalGraph, accountNodeDropDown.SelectedIndex);
+        }
+
+        public void showAlert(string m)
+        {
+            alertLabel.Text = m;
         }
 
         private void setAlgorithm(string al)
@@ -151,58 +169,27 @@ namespace People_May_You_Know
             Console.Out.WriteLine(algorithm);
         }
 
-        public void dfsRecommendationFriends()
+        public void dfsRecommendationFriends(Graph g, int search)
         {
 
         }
 
-        public void bfsRecommendationFriends()
+        public void bfsRecommendationFriends(Graph g, int search)
         {
-            recLayout.Controls.Clear();
-            
-            if (accountChoosen_index < 0)
-                return;
-
-
-            int account = accountChoosen_index;
+            int account = search;
             List<int> idxSearchs = new List<int>();
             idxSearchs.Add(account);
 
-            int numOfNode = 8;
-            string[] node = { "A", "B", "C", "D", "E", "F", "G", "H" };
-            int[] numOfConnectedNode = { 3, 4, 4, 3, 3, 5, 2, 2 };
-            int[,] connectedNode = { 
-                {1, 2, 3, -1, -1}, 
-                {0, 2, 4, 5, -1}, 
-                {0, 1, 5, 6, -1}, 
-                {0, 5, 6, -1, -1},
-                {1, 5, 7, -1, -1},
-                {1, 2, 3, 4, 7}, 
-                {2, 3, -1, -1, -1}, 
-                {4, 5, -1, -1, -1,} };
+            showExplore(globalGraph);
 
-            showExplore(node);
-
-            /*
-            for(int i = 0; i < numOfNode; i++)
-            {
-                int num = numOfConnectedNode[i];
-                Console.Out.Write(node[i] + " : ");
-                for(int j = 0; j < num; j++)
-                {
-                    int idx = connectedNode[i, j];
-                    Console.Out.Write(node[idx] + " ");
-                }
-                Console.Out.WriteLine();
-            }
-            */
+            int numOfNode = g.getNumOfNode();
 
             bool[] nodeSign = new bool[numOfNode];
             for (int i = 0; i < numOfNode; i++)
                 nodeSign[i] = false;
 
 
-            List<int> recNode = new List<int>();
+            List<string> recNode = new List<string>();
             List<int> countRec = new List<int>();
             bool fr = true;
             int k = 0;
@@ -210,12 +197,12 @@ namespace People_May_You_Know
             while (k < idxSearchs.Count)
             {
                 int idxSearch = idxSearchs[k];
-                int num = numOfConnectedNode[idxSearch];
+                int num = g.getNumOfConnectedNode(idxSearch);
                 nodeSign[idxSearch] = true;
                 count = 0;
                 for (int i = 0; i < num; i++)
                 {
-                    int idxNode = connectedNode[idxSearch, i];
+                    int idxNode = g.getIdxConnectedNode(idxSearch, i);
                     if (!nodeSign[idxNode])
                     {
                         if (fr)
@@ -225,7 +212,7 @@ namespace People_May_You_Know
                         }
                         else
                         {
-                            recNode.Add(idxNode);
+                            recNode.Add(g.getNode(idxNode));
                         }
                         count++;
                     }
@@ -235,7 +222,7 @@ namespace People_May_You_Know
                 countRec.Add(count);
             }
 
-            List<int> tempRecNode = new List<int>();
+            List<string> tempRecNode = new List<string>();
             List<int> numOfMutual = new List<int>();
             List<List<int>> mutual = new List<List<int>>();
             
@@ -243,7 +230,7 @@ namespace People_May_You_Know
             int n = 0;
             for(int i = 0; i < recNode.Count; i++)
             {
-                int temp = recNode[i];
+                string temp = recNode[i];
                 if (!tempRecNode.Contains(temp))
                 {
                     tempRecNode.Add(temp);
@@ -288,7 +275,7 @@ namespace People_May_You_Know
                             idxMax = j;
                     }
 
-                    int tempNode = tempRecNode[i];
+                    string tempNode = tempRecNode[i];
                     tempRecNode[i] = tempRecNode[idxMax];
                     tempRecNode[idxMax] = tempNode;
 
@@ -303,11 +290,23 @@ namespace People_May_You_Know
             }
 
 
-            showRecommendation(node, tempRecNode, numOfMutual, mutual);
+            Graph gResult = new Graph();
+
+            for(int i = 0; i < tempRecNode.Count; i++)
+            {
+                gResult.addNode(tempRecNode[i]);
+                int numOfConnected = numOfMutual[i];
+                for(int j = 0; j < numOfConnected; j++)
+                {
+                    gResult.addConnectedNode(i, mutual[i][j]);
+                }
+            }
+
+            showRecommendation(g, gResult);
             
         }
 
-        public void showGraph(string[] node, int[] numOfConnectedNode, int[,] connectedNode)
+        public void showGraphVisualization(Graph g)
         {
             visGraphLabel.Visible = false;
 
@@ -317,22 +316,22 @@ namespace People_May_You_Know
             Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
 
 
-            int num = node.Length;
+            int num = g.getNumOfNode();
             for(int i = 0; i < num; i++)
             {
-                int numConnect = numOfConnectedNode[i];
+                int numConnect = g.getNumOfConnectedNode(i);
                 for(int j = 0; j < numConnect; j++)
                 {
                     
-                    int idx = connectedNode[i, j];
+                    int idx = g.getIdxConnectedNode(i, j);
                     if (idx >= i)
                     {
-                        var edge = graph.AddEdge(node[i], node[idx]);
+                        var edge = graph.AddEdge(g.getNode(i), g.getNode(idx));
                         edge.Attr.ArrowheadAtTarget = Microsoft.Msagl.Drawing.ArrowStyle.None;
                         edge.Attr.Color = Microsoft.Msagl.Drawing.Color.DarkOrange;
 
-                        graph.FindNode(node[i]).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Cyan;
-                        graph.FindNode(node[idx]).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Cyan;
+                        graph.FindNode(g.getNode(i)).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Cyan;
+                        graph.FindNode(g.getNode(idx)).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Cyan;
                     }
                 }
             }
@@ -344,20 +343,19 @@ namespace People_May_You_Know
             graphVisualizationPanel.Controls.Add(viewer);
         }
 
-        public void showRecommendation(string[] node, List<int> recNode, List<int> numOfMutual, List<List<int>> mutual)
+        public void showRecommendation(Graph g, Graph gRec)
         {
-            if (accountChoosen_index < 0)
-                return;
+            resetRecommendationPanel();
+            textFriendRecommendationLabel.Text = "Friends Recommendation for " + g.getNode(accountNodeDropDown.SelectedIndex) + " : ";
 
-            textFriendRecommendationLabel.Text = "Friends Recommendation for " + node[accountChoosen_index] + " : ";
-
-            int numOfRec = recNode.Count;
+            
+            int numOfRec = gRec.getNumOfNode();
             for (int i = 0; i < numOfRec; i++)
             {
                 string nodeRec = (i + 1).ToString() + ". ";
-                nodeRec += node[recNode[i]];
+                nodeRec += gRec.getNode(i);
 
-                int numOfMutual_i = numOfMutual[i];
+                int numOfMutual_i = gRec.getNumOfConnectedNode(i);
 
                 string mutualRec = "    ";
                 mutualRec += numOfMutual_i.ToString();
@@ -365,8 +363,8 @@ namespace People_May_You_Know
 
                 for (int j = 0; j < numOfMutual_i; j++)
                 {
-                    int idx = mutual[i][j];
-                    mutualRec += node[idx];
+                    int idx = g.getIdxConnectedNode(i, j);
+                    mutualRec += g.getNode(idx);
 
                     if (j != numOfMutual_i - 1)
                         mutualRec += ", ";
@@ -386,7 +384,14 @@ namespace People_May_You_Know
             }
         }
 
-        public void showExplore(string[] node)
+        public void resetRecommendationPanel()
+        {
+            textFriendRecommendationLabel.Text = "Friends Recommendation for : ";
+            //exploreLabel.Text = "explore";
+            recLayout.Controls.Clear();
+        }
+
+        public void showExplore(Graph g)
         {
             int[] explore = { 1, 4, 0, 5, 7 };
 
@@ -397,7 +402,7 @@ namespace People_May_You_Know
             string ex = "";
             for(int i = 1; i < explore.Length; i++)
             {
-                ex += node[explore[i]];
+                ex += g.getNode(explore[i]);
 
                 if (i != explore.Length - 1)
                     ex += " -> ";
@@ -425,13 +430,33 @@ namespace People_May_You_Know
             Console.Out.WriteLine();
         }
         
-        public void setNodeDropDownList(string[] node)
+        public void setNodeDropDownList(Graph g)
         {
-            int numOfNode = node.Length;
+            int numOfNode = g.getNumOfNode();
+
+            string[] acc = new string[numOfNode];
+
+            for (int i = 0; i < numOfNode; i++)
+                acc[i] = g.getNode(i);
+
+            resetNodeDropDownList();
+            accountNodeDropDown.Items.AddRange(acc);
+            exploreNodeDropDown.Items.AddRange(acc);
+        }
+
+        public void resetNodeDropDownList()
+        {
+            accountNodeDropDown.SelectedIndex = -1;
+            exploreNodeDropDown.SelectedIndex = -1;
             accountNodeDropDown.Items.Clear();
             exploreNodeDropDown.Items.Clear();
-            accountNodeDropDown.Items.AddRange(node);
-            exploreNodeDropDown.Items.AddRange(node);
+        }
+
+        public void resetGraphVisualization()
+        { 
+            graphVisualizationPanel.Controls.Clear();
+            visGraphLabel.Visible = true;
+            graphVisualizationPanel.Controls.Add(visGraphLabel);
         }
 
         public System.Windows.Forms.Panel createPanelRec(string node, string mutual)
@@ -505,6 +530,11 @@ namespace People_May_You_Know
         }
 
         private void label1_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel7_Paint(object sender, PaintEventArgs e)
         {
 
         }

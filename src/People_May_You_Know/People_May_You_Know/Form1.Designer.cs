@@ -46,6 +46,7 @@
             this.panel8 = new System.Windows.Forms.Panel();
             this.exploreLabel = new System.Windows.Forms.Label();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.alertLabel = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
             this.algorithmPanel = new System.Windows.Forms.Panel();
@@ -54,8 +55,7 @@
             this.graphVisualizationPanel = new System.Windows.Forms.Panel();
             this.visGraphLabel = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.filePathText = new System.Windows.Forms.TextBox();
             this.panel1.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -158,11 +158,6 @@
             this.exploreNodeDropDown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.exploreNodeDropDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.exploreNodeDropDown.FormattingEnabled = true;
-            this.exploreNodeDropDown.Items.AddRange(new object[] {
-            "A",
-            "B",
-            "C",
-            "D"});
             this.exploreNodeDropDown.Location = new System.Drawing.Point(197, 16);
             this.exploreNodeDropDown.MaxDropDownItems = 50;
             this.exploreNodeDropDown.Name = "exploreNodeDropDown";
@@ -253,12 +248,23 @@
             // 
             // panel7
             // 
-            this.panel7.Controls.Add(this.label1);
+            this.panel7.Controls.Add(this.alertLabel);
             this.panel7.Controls.Add(this.submitButton);
             this.panel7.Location = new System.Drawing.Point(8, 151);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(480, 50);
             this.panel7.TabIndex = 24;
+            this.panel7.Paint += new System.Windows.Forms.PaintEventHandler(this.panel7_Paint);
+            // 
+            // alertLabel
+            // 
+            this.alertLabel.AutoSize = true;
+            this.alertLabel.ForeColor = System.Drawing.Color.Red;
+            this.alertLabel.Location = new System.Drawing.Point(137, 19);
+            this.alertLabel.Name = "alertLabel";
+            this.alertLabel.Size = new System.Drawing.Size(0, 13);
+            this.alertLabel.TabIndex = 19;
+            this.alertLabel.Text = "Alert!!";
             // 
             // panel6
             // 
@@ -331,7 +337,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.panel3.Controls.Add(this.textBox1);
+            this.panel3.Controls.Add(this.filePathText);
             this.panel3.Controls.Add(this.label2);
             this.panel3.Controls.Add(this.browseButton);
             this.panel3.Location = new System.Drawing.Point(12, 12);
@@ -339,21 +345,12 @@
             this.panel3.Size = new System.Drawing.Size(480, 50);
             this.panel3.TabIndex = 10;
             // 
-            // textBox1
+            // filePathText
             // 
-            this.textBox1.Location = new System.Drawing.Point(87, 23);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(380, 20);
-            this.textBox1.TabIndex = 6;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(154, 19);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(34, 13);
-            this.label1.TabIndex = 19;
-            this.label1.Text = "Alert!!";
+            this.filePathText.Location = new System.Drawing.Point(87, 23);
+            this.filePathText.Name = "filePathText";
+            this.filePathText.Size = new System.Drawing.Size(380, 20);
+            this.filePathText.TabIndex = 6;
             // 
             // main
             // 
@@ -409,7 +406,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel graphVisualizationPanel;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox filePathText;
         private System.Windows.Forms.Panel algorithmPanel;
         private System.Windows.Forms.Panel panel6;
         private System.Windows.Forms.Panel bfsDfsPanel;
@@ -419,7 +416,7 @@
         private System.Windows.Forms.Label exploreLabel;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Label visGraphLabel;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label alertLabel;
     }
 }
 
