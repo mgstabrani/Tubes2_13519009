@@ -3,6 +3,6 @@ packages/
 Debug/
 bin/
 obj/
-.exe
-.pdb
-.suo
+*.exe
+*.pdb
+*.suo
