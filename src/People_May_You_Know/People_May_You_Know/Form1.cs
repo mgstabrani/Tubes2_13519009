@@ -16,6 +16,10 @@ namespace People_May_You_Know
         string algorithm = "none";
         int accountChoosen_index = -1;
 
+        Graph globalGraph = new Graph();
+
+        bool graphReady = false;
+
         public main()
         {
             InitializeComponent();
@@ -40,7 +44,63 @@ namespace People_May_You_Know
         private void browse()
         {
             Console.Out.WriteLine("Browse!!");
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "C# Corner Open File Dialog";
+            fdlg.InitialDirectory = @"c:\";
+            fdlg.Filter = "All files (*.*)|*.*|All files (*.*)|*.*";
+            fdlg.FilterIndex = 2;
+            fdlg.RestoreDirectory = true;
+           
+            if (fdlg.ShowDialog() == DialogResult.OK)
+            {
+                convertToGraph(fdlg.FileName);
+                textBox1.Text = fdlg.FileName;
+            }
+
         }
+
+        private void convertToGraph(string fileName){
+            string node = "";
+            string file;
+            file = File.ReadAllText(fileName);
+            int i = 0;
+            string tmp = "";
+
+            while(file[i] != '\n'){
+                tmp += file[i];
+                i++;
+            }
+
+            i++;
+
+            int idxNodeFrom = -1;
+            while(i < file.Length){
+                if(file[i] == '\n'){
+                    if (globalGraph.getIdxNode(node) == -1){
+                        globalGraph.addNode(node);
+                    }
+                    globalGraph.addConnectedNode(idxNodeFrom,globalGraph.getIdxNode(node));
+                    globalGraph.addConnectedNode(globalGraph.getIdxNode(node), idxNodeFrom);
+                    node = "";
+                }else if(file[i] == ','){
+                    if (globalGraph.getIdxNode(node) == -1){
+                        globalGraph.addNode(node);
+                    
+                    }
+                    idxNodeFrom = globalGraph.getIdxNode(node);
+                    node = "";
+                }else{
+                    node += file[i];
+                }
+                i++;
+            } 
+            graphReady = true;
+            globalGraph.print();
+        }
+
+
+
+        
 
         private void submit()
         {
