@@ -1,4 +1,4 @@
 src/People_May_You_Know/.vs/
 packages/
 Debug/
-
+*.suo
