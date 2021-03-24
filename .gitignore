@@ -1,4 +1,7 @@
-src/People_May_You_Know/.vs/
+.vs/
 packages/
 Debug/
-*.suo
+bin/
+obj/
+.exe
+.pdb
