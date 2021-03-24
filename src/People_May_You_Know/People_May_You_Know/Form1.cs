@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace People_May_You_Know
 {
@@ -46,7 +47,10 @@ namespace People_May_You_Know
             Console.Out.WriteLine("Browse!!");
             OpenFileDialog fdlg = new OpenFileDialog();
             fdlg.Title = "C# Corner Open File Dialog";
-            fdlg.InitialDirectory = @"c:\";
+            //fdlg.InitialDirectory = @"c:\";
+            fdlg.InitialDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+
+
             fdlg.Filter = "All files (*.*)|*.*|All files (*.*)|*.*";
             fdlg.FilterIndex = 2;
             fdlg.RestoreDirectory = true;
@@ -60,41 +64,71 @@ namespace People_May_You_Know
         }
 
         private void convertToGraph(string fileName){
-            string node = "";
-            string file;
-            file = File.ReadAllText(fileName);
-            int i = 0;
-            string tmp = "";
+            globalGraph = new Graph();
+            graphReady = false;
 
-            while(file[i] != '\n'){
+            
+            
+            string[] lines = File.ReadAllLines(fileName);
+
+            /*
+            if (file[file.Length - 1] != '\n')
+                file += '\n';
+            
+            Console.Write(file);
+            
+
+            while(file[i] != '\n')
+            {
                 tmp += file[i];
                 i++;
             }
 
-            i++;
+            */
 
-            int idxNodeFrom = -1;
-            while(i < file.Length){
-                if(file[i] == '\n'){
-                    if (globalGraph.getIdxNode(node) == -1){
-                        globalGraph.addNode(node);
+            string count = lines[0];
+            int n = Int32.Parse(count);
+
+
+            string node = "";
+            for (int j = 1; j < n+1; j++)
+            {
+                int idxNodeFrom = -1;
+                string line = lines[j] + '\n';
+                //Console.Write(line);
+                for (int i = 0; i < line.Length; i++)
+                {
+                    if (line[i] == '\n')
+                    {
+                        if (globalGraph.getIdxNode(node) == -1)
+                        {
+                            globalGraph.addNode(node);
+                        }
+                        globalGraph.addConnectedNode(idxNodeFrom, globalGraph.getIdxNode(node));
+                        globalGraph.addConnectedNode(globalGraph.getIdxNode(node), idxNodeFrom);
+                        node = "";
                     }
-                    globalGraph.addConnectedNode(idxNodeFrom,globalGraph.getIdxNode(node));
-                    globalGraph.addConnectedNode(globalGraph.getIdxNode(node), idxNodeFrom);
-                    node = "";
-                }else if(file[i] == ','){
-                    if (globalGraph.getIdxNode(node) == -1){
-                        globalGraph.addNode(node);
-                    
+                    else if (line[i] == ',')
+                    {
+                        //Console.WriteLine(" --> " + node);
+                        if (globalGraph.getIdxNode(node) == -1)
+                        {
+                            globalGraph.addNode(node);
+
+                        }
+                        idxNodeFrom = globalGraph.getIdxNode(node);
+                        node = "";
                     }
-                    idxNodeFrom = globalGraph.getIdxNode(node);
-                    node = "";
-                }else{
-                    node += file[i];
+                    else
+                    {
+                        //Console.Write(file[i]);
+                        node += line[i];
+                    }
                 }
-                i++;
-            } 
+            }
+
             graphReady = true;
+            //Console.WriteLine("Graph is Ready!!");
             globalGraph.print();
         }
 
@@ -429,40 +463,6 @@ namespace People_May_You_Know
         #endregion funciton
 
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void graphPictureBox_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void browseButton_Click(object sender, EventArgs e)
         {
@@ -601,6 +601,15 @@ namespace People_May_You_Know
         }
 
         public void print(){
+
+            if (this.numOfNode < 1)
+                return;
+
+            for (int i = 0; i < this.numOfNode; i++)
+                Console.Write(this.node[i] + " ");
+
+            Console.WriteLine();
+
             for(int i = 0; i < this.numOfNode; i++){
                 Console.Write(i + ": ");
                 for(int j = 0; j < this.numOfConnectedNode[i]; j++){

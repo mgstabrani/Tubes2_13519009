@@ -139,7 +139,6 @@
             this.label8.Size = new System.Drawing.Size(98, 13);
             this.label8.TabIndex = 11;
             this.label8.Text = "Explore friends with";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // accountNodeDropDown
             // 
@@ -369,7 +368,6 @@
             this.Name = "main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "People May You Know";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.panel1.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
