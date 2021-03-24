@@ -12,3 +12,17 @@ C:\Users\Yudi\source\repos\People_May_You_Know\People_May_You_Know\bin\Debug\Aut
 C:\Users\Yudi\source\repos\People_May_You_Know\People_May_You_Know\bin\Debug\Microsoft.Msagl.GraphViewerGdi.dll
 C:\Users\Yudi\source\repos\People_May_You_Know\People_May_You_Know\bin\Debug\Microsoft.Msagl.WpfGraphControl.dll
 C:\Users\Yudi\source\repos\People_May_You_Know\People_May_You_Know\obj\Debug\People_May_You_Know.csproj.CopyComplete
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\bin\Debug\People_May_You_Know.exe.config
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\bin\Debug\People_May_You_Know.exe
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\bin\Debug\People_May_You_Know.pdb
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\bin\Debug\AutomaticGraphLayout.dll
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\bin\Debug\AutomaticGraphLayout.Drawing.dll
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\bin\Debug\Microsoft.Msagl.GraphViewerGdi.dll
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\bin\Debug\Microsoft.Msagl.WpfGraphControl.dll
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\obj\Debug\People_May_You_Know.csprojAssemblyReference.cache
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\obj\Debug\People_May_You_Know.main.resources
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\obj\Debug\People_May_You_Know.Properties.Resources.resources
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\obj\Debug\People_May_You_Know.csproj.GenerateResource.cache
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\obj\Debug\People_May_You_Know.csproj.CopyComplete
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\obj\Debug\People_May_You_Know.exe
+C:\Users\Yudi\Desktop\new\tubes\Tubes2_13519009\src\People_May_You_Know\People_May_You_Know\obj\Debug\People_May_You_Know.pdb

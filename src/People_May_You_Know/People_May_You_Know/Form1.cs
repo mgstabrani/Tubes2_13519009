@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace People_May_You_Know
 {
@@ -44,6 +45,11 @@ namespace People_May_You_Know
 
         private void submit()
         {
+            if (accountNodeDropDown.SelectedIndex < 0)
+            {
+                return;
+            }
+
             Console.Out.WriteLine("Submit!!");
             if (algorithm == "bfs")
                 bfsRecommendationFriends();
@@ -407,6 +413,17 @@ namespace People_May_You_Know
         private void browseButton_Click(object sender, EventArgs e)
         {
             browse();
+
+            OpenFileDialog fdlg = new OpenFileDialog();
+            fdlg.Title = "C# Corner Open File Dialog";
+            fdlg.InitialDirectory = @"c:\";
+            fdlg.Filter = "All files (*.*)|*.*|All files (*.*)|*.*";
+            fdlg.FilterIndex = 2;
+            fdlg.RestoreDirectory = true;
+            if (fdlg.ShowDialog() == DialogResult.OK)
+            {
+                textBox1.Text = fdlg.FileName;
+            }
         }
         private void submitButton_Click(object sender, EventArgs e)
         {

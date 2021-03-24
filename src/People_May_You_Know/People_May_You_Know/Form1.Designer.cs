@@ -55,6 +55,7 @@
             this.visGraphLabel = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -253,6 +254,7 @@
             // 
             // panel7
             // 
+            this.panel7.Controls.Add(this.label1);
             this.panel7.Controls.Add(this.submitButton);
             this.panel7.Location = new System.Drawing.Point(8, 151);
             this.panel7.Name = "panel7";
@@ -345,6 +347,15 @@
             this.textBox1.Size = new System.Drawing.Size(380, 20);
             this.textBox1.TabIndex = 6;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(154, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(34, 13);
+            this.label1.TabIndex = 19;
+            this.label1.Text = "Alert!!";
+            // 
             // main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -365,6 +376,7 @@
             this.panel8.ResumeLayout(false);
             this.panel8.PerformLayout();
             this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.panel6.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
             this.panel5.PerformLayout();
@@ -409,6 +421,7 @@
         private System.Windows.Forms.Label exploreLabel;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Label visGraphLabel;
+        private System.Windows.Forms.Label label1;
     }
 }
 
