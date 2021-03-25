@@ -140,12 +140,12 @@ namespace People_May_You_Know
             }
             else if (algorithm == "none")
             {
-                showAlert("Algorithm is not ready!!");
+                showAlert("Algorithm is not selected!!");
                 return;
             }
             else if (accountNodeDropDown.SelectedIndex < 0 || exploreNodeDropDown.SelectedIndex < 0)
             {
-                showAlert("Account is not ready!!");
+                showAlert("Account is not selected!!");
                 return;
             }
 
@@ -556,20 +556,28 @@ namespace People_May_You_Know
 
             //int awal = Convert.ToInt32(Console.ReadLine());
             //int akhir = Convert.ToInt32(Console.ReadLine());
-            
+
+            bool found = false;
+
             if (algorithm == "bfs")
             {
-                bfsExploreFriend(globalGraph, awal, akhir, ref kunjung, ref dibfs, false, ref result);
+                found = bfsExploreFriend(globalGraph, awal, akhir, ref kunjung, ref dibfs, false, ref result);
             }
             else
             {
-                dfsExploreFriend(g, awal, akhir, ref kunjung, ref result);
+                found = dfsExploreFriend(g, awal, akhir, ref kunjung, ref result);
             }
-            
-            showExplore(g, result);
+
+            if (found)
+                showExplore(g, result);
+            else
+            {
+                resetExplorer();
+                resetGraphNodeVisualizationColor();
+            }
         }
 
-        public void dfsExploreFriend(Graph g, int nodeFrom, int nodeTo, ref List<int> dikunjungi, ref List<int> hasil)
+        public bool dfsExploreFriend(Graph g, int nodeFrom, int nodeTo, ref List<int> dikunjungi, ref List<int> hasil)
         {
             if (dikunjungi[nodeFrom] == 0)
             {
@@ -577,44 +585,56 @@ namespace People_May_You_Know
                 hasil.Add(nodeFrom);
                 changeGraphNodeVisualizationColor(hasil);
             }
+
             if (nodeFrom == nodeTo)
             {
-                return;
+                return true;
             }
             else
             {
                 if (g.getNumOfConnectedNode(nodeFrom) == 0)
                 {
                     hasil.RemoveAt(hasil.Count - 1);
-                    dfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref hasil);
+                    return dfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref hasil);
                 }
                 else
                 {
                     bool isExist = false;
-
+                    int i;
                     //sorting graph
                     List<string> connectNodes = new List<string>();
-                    for (int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++)
+                    for (i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++)
                     {
                         connectNodes.Add(g.getNode(g.getIdxConnectedNode(nodeFrom, i)));
                     }
                     connectNodes.Sort();
 
-                    for (int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++)
+                    for (i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++)
                     {
                         if (dikunjungi[g.getIdxNode(connectNodes[i])] == 0)
                         {
                             // Console.WriteLine(connectNodes[i]);
                             // Console.WriteLine(g.getIdxNode(connectNodes[i]));
-                            dfsExploreFriend(g, g.getIdxNode(connectNodes[i]), nodeTo, ref dikunjungi, ref hasil);
                             isExist = true;
                             break;
                         }
                     }
+
                     if (!isExist)
                     {
                         hasil.RemoveAt(hasil.Count - 1);
-                        dfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref hasil);
+                        if (hasil.Count == 0)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            return dfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref hasil);
+                        }
+                    }
+                    else
+                    {
+                        return dfsExploreFriend(g, g.getIdxNode(connectNodes[i]), nodeTo, ref dikunjungi, ref hasil);
                     }
                 }
 
@@ -693,7 +713,7 @@ namespace People_May_You_Know
                         if (hasil.Count != 0)
                             return bfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref dibfs, true, ref hasil);
                         else
-                            return bfsExploreFriend(g, nodeFrom, nodeTo, ref dikunjungi, ref dibfs, true, ref hasil);
+                            return false;
                     }
                     else
                     {

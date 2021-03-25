@@ -407,7 +407,7 @@
             this.MinimumSize = new System.Drawing.Size(1024, 768);
             this.Name = "main";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "People May You Know";
+            this.Text = "People May You Know - Tim Wkwkw";
             this.panel1.ResumeLayout(false);
             this.panel9.ResumeLayout(false);
             this.panel9.PerformLayout();
