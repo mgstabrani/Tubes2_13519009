@@ -656,11 +656,14 @@ namespace People_May_You_Know
                     //Console.WriteLine("----" + g.getNode(g.getIdxConnectedNode(nodeFrom, i)));
                 }
 
+            /*
             if (isAllVisited(dikunjungi))
             {
                 return false;
             }
-            else if (nodeFrom == nodeTo)
+            else 
+            */
+            if (nodeFrom == nodeTo)
             {
                 return true;
             }
