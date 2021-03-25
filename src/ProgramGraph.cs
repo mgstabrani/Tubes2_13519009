@@ -112,7 +112,7 @@ class ProgramGraph{
         }
     }
 
-    static void BFS(Graph g, int nodeFrom, int nodeTo, ref List<int> dikunjungi, ref List<int> dibfs,ref List<int> hasil){
+    static bool BFS(Graph g, int nodeFrom, int nodeTo, ref List<int> dikunjungi, ref List<int> dibfs,ref List<int> hasil){
         if(dikunjungi[nodeFrom] == 0){
             dikunjungi[nodeFrom] = 1;
             hasil.Add(nodeFrom);
@@ -120,15 +120,20 @@ class ProgramGraph{
         // for(int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++){
         //     dibfs[g.getIdxConnectedNode(nodeFrom,i)] = 0;
         // }
-        if(nodeFrom == nodeTo){
-            return;
+
+        if (isAllVisited(dikunjungi))
+        {
+            return false;
+        }
+        else if(nodeFrom == nodeTo){
+            return true; 
         }else{
             if(g.getNumOfConnectedNode(nodeFrom) == 0){
                 hasil.RemoveAt(hasil.Count - 1);
                 // for(int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++){
                 //     dikunjungi[g.getIdxConnectedNode(nodeFrom,i)]--;
                 // }
-                BFS(g, hasil[hasil.Count-1], nodeTo, ref dikunjungi, ref dibfs,ref hasil);
+                return BFS(g, hasil[hasil.Count-1], nodeTo, ref dikunjungi, ref dibfs,ref hasil);
             }else{
                 bool isExist = false;
 
@@ -150,17 +155,28 @@ class ProgramGraph{
 
                         // Console.WriteLine(connectNodes[i]);
                         // Console.WriteLine(g.getIdxNode(connectNodes[i]));
-                        BFS(g, g.getIdxNode(connectNodes[i]), nodeTo, ref dikunjungi, ref dibfs,ref hasil);
+                        return BFS(g, g.getIdxNode(connectNodes[i]), nodeTo, ref dikunjungi, ref dibfs,ref hasil);
                         isExist = true;
                         break;
                     }
                 }
                 if(! isExist){
                     hasil.RemoveAt(hasil.Count - 1);
-                    BFS(g, hasil[hasil.Count-1], nodeTo, ref dikunjungi, ref dibfs,ref hasil);
+                    return BFS(g, hasil[hasil.Count-1], nodeTo, ref dikunjungi, ref dibfs,ref hasil);
                 }
             }
         
         }
+    }
+
+    static bool isAllVisited(List<int> vis)
+    {
+        for (int i = 0; i < vis.Count; i++)
+        {
+            if (vis[i] == 0)
+                return false;
+        }
+
+        return true;
     }
 }

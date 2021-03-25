@@ -26,7 +26,7 @@ namespace People_May_You_Know
             InitializeComponent();
             alertLabel.Text = "";
         }
-
+        
 
         #region function
         private void browse()
@@ -153,9 +153,16 @@ namespace People_May_You_Know
             //Console.Out.WriteLine("Submit!!");
 
             if (algorithm == "bfs")
+            {
                 bfsRecommendationFriends(globalGraph, accountNodeDropDown.SelectedIndex);
+                exploreFriendWith(globalGraph, accountNodeDropDown.SelectedIndex, exploreNodeDropDown.SelectedIndex);
+            }
             else if (algorithm == "dfs")
+            {
                 dfsRecommendationFriends(globalGraph, accountNodeDropDown.SelectedIndex);
+                exploreFriendWith(globalGraph, accountNodeDropDown.SelectedIndex, exploreNodeDropDown.SelectedIndex);
+            }
+                
         }
 
         public void showAlert(string m)
@@ -179,8 +186,6 @@ namespace People_May_You_Know
             int account = search;
             List<int> idxSearchs = new List<int>();
             idxSearchs.Add(account);
-
-            showExplore(globalGraph);
 
             int numOfNode = g.getNumOfNode();
 
@@ -384,27 +389,199 @@ namespace People_May_You_Know
             }
         }
 
+        public void resetExplorer()
+        {
+            exploreLabel.Text = "explore";
+        }
+
         public void resetRecommendationPanel()
         {
             textFriendRecommendationLabel.Text = "Friends Recommendation for : ";
-            //exploreLabel.Text = "explore";
+            
             recLayout.Controls.Clear();
         }
 
-        public void showExplore(Graph g)
+
+        public void exploreFriendWith(Graph g, int awal, int akhir)
         {
-            int[] explore = { 1, 4, 0, 5, 7 };
-
-            if (explore.Length < 2)
-                return;
-            
-            int degree = explore[0];
-            string ex = "";
-            for(int i = 1; i < explore.Length; i++)
+            List<int> result = new List<int>();
+            List<int> kunjung = new List<int>();
+            List<int> dibfs = new List<int>();
+            for (int i = 0; i < g.getNumOfNode(); i++)
             {
-                ex += g.getNode(explore[i]);
+                kunjung.Add(0);
+                dibfs.Add(0);
+            }
 
-                if (i != explore.Length - 1)
+            //int awal = Convert.ToInt32(Console.ReadLine());
+            //int akhir = Convert.ToInt32(Console.ReadLine());
+            
+            if (algorithm == "bfs")
+            {
+                bfsExploreFriend(globalGraph, awal, akhir, ref kunjung, ref dibfs, ref result);
+            }
+            else
+            {
+                dfsExploreFriend(g, awal, akhir, ref kunjung, ref result);
+            }
+            
+            showExplore(g, result);
+        }
+
+        public void dfsExploreFriend(Graph g, int nodeFrom, int nodeTo, ref List<int> dikunjungi, ref List<int> hasil)
+        {
+            if (dikunjungi[nodeFrom] == 0)
+            {
+                dikunjungi[nodeFrom] = 1;
+                hasil.Add(nodeFrom);
+            }
+            if (nodeFrom == nodeTo)
+            {
+                return;
+            }
+            else
+            {
+                if (g.getNumOfConnectedNode(nodeFrom) == 0)
+                {
+                    hasil.RemoveAt(hasil.Count - 1);
+                    dfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref hasil);
+                }
+                else
+                {
+                    bool isExist = false;
+
+                    //sorting graph
+                    List<string> connectNodes = new List<string>();
+                    for (int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++)
+                    {
+                        connectNodes.Add(g.getNode(g.getIdxConnectedNode(nodeFrom, i)));
+                    }
+                    connectNodes.Sort();
+
+                    for (int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++)
+                    {
+                        if (dikunjungi[g.getIdxNode(connectNodes[i])] == 0)
+                        {
+                            // Console.WriteLine(connectNodes[i]);
+                            // Console.WriteLine(g.getIdxNode(connectNodes[i]));
+                            dfsExploreFriend(g, g.getIdxNode(connectNodes[i]), nodeTo, ref dikunjungi, ref hasil);
+                            isExist = true;
+                            break;
+                        }
+                    }
+                    if (!isExist)
+                    {
+                        hasil.RemoveAt(hasil.Count - 1);
+                        dfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref hasil);
+                    }
+                }
+
+            }
+        }
+
+        public bool bfsExploreFriend(Graph g, int nodeFrom, int nodeTo, ref List<int> dikunjungi, ref List<int> dibfs, ref List<int> hasil)
+        {
+            if (dikunjungi[nodeFrom] == 0)
+            {
+                dikunjungi[nodeFrom] = 1;
+                hasil.Add(nodeFrom);
+            }
+            // for(int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++){
+            //     dibfs[g.getIdxConnectedNode(nodeFrom,i)] = 0;
+            // }
+
+            if (isAllVisited(dikunjungi))
+            {
+                return false;
+            }
+            else if (nodeFrom == nodeTo)
+            {
+                return true;
+            }
+            else
+            {
+                if (g.getNumOfConnectedNode(nodeFrom) == 0)
+                {
+                    hasil.RemoveAt(hasil.Count - 1);
+                    // for(int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++){
+                    //     dikunjungi[g.getIdxConnectedNode(nodeFrom,i)]--;
+                    // }
+                    return bfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref dibfs, ref hasil);
+                }
+                else
+                {
+                    bool isExist = false;
+                    int i;
+                    //Sorting graph
+                    List<string> connectNodes = new List<string>();
+                    for (i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++)
+                    {
+                        connectNodes.Add(g.getNode(g.getIdxConnectedNode(nodeFrom, i)));
+                    }
+                    connectNodes.Sort();
+
+                    
+                    for (i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++)
+                    {
+                        if (dikunjungi[g.getIdxNode(connectNodes[i])] == 0 && dibfs[g.getIdxNode(connectNodes[i])] == 0)
+                        {
+                            for (int j = 0; j < g.getNumOfConnectedNode(nodeFrom); j++)
+                            {
+                                if (j != i)
+                                {
+                                    dibfs[g.getIdxNode(connectNodes[j])] = 1;
+                                }
+                            }
+
+                            // Console.WriteLine(connectNodes[i]);
+                            // Console.WriteLine(g.getIdxNode(connectNodes[i]);
+                            isExist = true;
+                            break;
+                        }
+                    }
+
+                    if (!isExist)
+                    {
+                        hasil.RemoveAt(hasil.Count - 1);
+                        return bfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref dibfs, ref hasil);
+                    }
+                    else
+                    {
+                        return bfsExploreFriend(g, g.getIdxNode(connectNodes[i]), nodeTo, ref dikunjungi, ref dibfs, ref hasil);
+                    }
+                }
+
+            }
+        }
+
+        public bool isAllVisited(List<int> vis)
+        {
+            for (int i = 0; i < vis.Count; i++)
+            {
+                if (vis[i] == 0)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public void showExplore(Graph g, List<int> path)
+        {
+
+            if (path.Count < 2)
+            {
+                resetExplorer();
+                return;
+            }
+                
+            
+            int degree = path.Count-2;
+            string ex = "";
+            for(int i = 0; i < path.Count; i++)
+            {
+                ex += g.getNode(path[i]);
+
+                if (i != path.Count - 1)
                     ex += " -> ";
             }
 
@@ -537,125 +714,6 @@ namespace People_May_You_Know
         private void panel7_Paint(object sender, PaintEventArgs e)
         {
 
-        }
-    }
-
-    public class Graph
-    {
-        protected int numOfNode;
-        protected List<string> node;
-        protected List<int> numOfConnectedNode; // 
-        protected List<List<int>> connectedNode; // (numOfNode*numOfNode)
-        
-        public Graph(){
-            this.numOfNode = 0;
-            this.node = new List<string>();
-            this.numOfConnectedNode = new List<int>();
-            this.connectedNode = new List<List<int>>();
-        }
-
-        // public Graph(const Graph& graf){
-        //     this.numOfNode = graf.numOfNode;
-        //     this.node = new List<string>();
-        //     for(int i = 0; i < this.numOfNode; i++){
-        //         mode.Add(graf.node[i]);
-        //     }
-        // }
-
-        // //     this.numOfConnectedNode = new int[255];
-        // //     for(int i = 0; i < this.numOfNode; i++){
-        // //         this.numOfConnectedNode[i] = graf.numOfConnectedNode[i];
-        // //     }
-
-        // //     this.connectedNode = new int[255][255];
-        // //     for(int i = 0; i < this.numOfNode; i++){
-        // //         for(int j = 0; j < this.numOfConnectedNode[i]; j++){
-        // //             this.connectedNode[i][j] = graf.connectedNode[i][j];
-        // //         }
-        // //     }
-        // // }
-            
-        // // public Graph& operator=(const Graph&){
-        // //     this.numOfNode = graf.numOfNode;
-        // //     for(int i = 0; i < this.numOfNode; i++){
-        // //         mode[i] = graf.node[i];
-        // //     }
-
-        // //     for(int i = 0; i < this.numOfNode; i++){
-        // //         this.numOfConnectedNode[i] = graf.numOfConnectedNode[i];
-        // //     }
-
-        // //     for(int i = 0; i < this.numOfNode; i++){
-        // //         for(int j = 0; j < this.numOfConnectedNode[i]; j++){
-        // //             this.connectedNode[i][j] = graf.connectedNode[i][j];
-        // //         }
-        // //     }
-        // // }
-        
-        // public ~Graph(){
-        //     delete this.node;
-        //     delete this.numOfConnectedNode;
-        //     delete this.connectedNode;
-        // }
-            
-        public void addNode(string node){
-            this.node.Add(node);
-            this.numOfNode++;
-            connectedNode.Add(new List<int>());
-            this.numOfConnectedNode.Add(0);
-        }
-
-        public string getNode(int idxNode){
-            return this.node[idxNode];
-        }
-
-        public void addConnectedNode(int idxNode, int idxConnectNode){
-            this.numOfConnectedNode[idxNode]++;
-            this.connectedNode[idxNode].Add(idxConnectNode);
-        }
-
-        public int getNumOfNode(){
-            return this.numOfNode;
-        }
-
-        public int getNumOfConnectedNode(int idxNode){
-            return this.numOfConnectedNode[idxNode];
-        }
-
-        public int getIdxConnectedNode(int idxNode, int idxConnect){
-            return connectedNode[idxNode][idxConnect];
-        }
-
-        public string getConnectedNode(int idxNode, int idxConnect){
-            return node[this.getIdxConnectedNode(idxNode,idxConnect)];
-        }
-
-        public void print(){
-
-            if (this.numOfNode < 1)
-                return;
-
-            for (int i = 0; i < this.numOfNode; i++)
-                Console.Write(this.node[i] + " ");
-
-            Console.WriteLine();
-
-            for(int i = 0; i < this.numOfNode; i++){
-                Console.Write(i + ": ");
-                for(int j = 0; j < this.numOfConnectedNode[i]; j++){
-                    Console.Write(connectedNode[i][j] + " ");
-                }
-                Console.WriteLine();
-            }
-        }
-
-        public int getIdxNode(string node){
-            for(int i = 0; i < this.numOfNode; i++){
-                if(this.node[i] == node){
-                    return i;
-                }
-            }
-            return -1;
         }
     }
 }
