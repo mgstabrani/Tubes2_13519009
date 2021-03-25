@@ -1,0 +1,129 @@
+funtion bfsExploreFriend(Graph g, int nodeForm, int nodeTo, int[] dikunjungi, int[] dibfs, bool timeToReset, int[] hasil) : boolean
+
+KAMUS DATA
+
+	boolean isExist
+
+ALGORITMA
+	
+	if (dikunjungi[nodeForm] == 0) then
+		dikunjungi[nodeForm] == 1
+		hasil.addElement(nodeForm)
+
+	
+	{reset node yang terhubung ke nodeFrome, yang menandakan node-node tersebut dapat dikunjungi dari nodeForm}
+	if (timeToReset) then
+		i traversal[0..g.getNumOfConnectedNode(nodeForm)]
+			dibfs[g.getConnectedNode(nodeForm, i)] == 0
+		
+
+	{node yang dicari sudah ditemukan}
+	if (nodeForm == nodeTo) then
+		return true
+	else
+		{Node tidak mempunyai cabang}
+		if (g.getNumOfConnectedNode(nodeForm) == 0)
+			return false
+		else
+			isExist = false
+			i = 0
+
+			{mengambil semua node yang terhubung ke nodeForm}
+			connectedNode = g.getConnectedNode(nodeForm)
+			
+
+			{Mencari node yang bisa dikunjungi dari nodeForm, node yang bisa dikunjungi adalah 
+			node yang seblumnya belum pernah dikunjungi dan atau bukan tetangga dari nodeForm}
+			i traversal[0 .. connectedNode.Length]
+				if (dikunjungi[connectedNode[i]] == 0 and dibfs[connectedNode[i]] == 0) then
+
+					j traversal[0 .. connectedNode.Length]
+						if (i != j) then
+							dibfs[connectedNode[j]] = 1
+
+
+					isExist = true
+					break
+
+			if (isExist) then
+				return bfsExploreFriend(g, connectedNode[i], nodeTo, dikunjungi, dibfs, false, hasil)
+			else
+				{jika tidak ada lagi yang bisa dikunjungi dari nodeForm, maka dilakukan backtracking}
+				hasil.removeLastElement()
+
+				{ketika posisi sudah di titik asal, dan tidak ada lagi yang bisa dikunjungi, 
+				berarti tidak ada jalur yang bisa dilalui untuk menuju tujuan nodeTo}
+				if (hasil.Length == 0) then
+					return false
+				else
+					return bfsExploreFriend(g, hasil.getLastElement, nodeTo, dikunjungi, dibfs, true, hasil)
+
+
+
+
+
+funtion dfsExploreFriend(Graph g, int nodeForm, int nodeTo, int[] dikunjungi, int[] hasil) : boolean
+KAMUS
+	boolean isExist
+ALGORITMA
+	{Check apakah nodeForm sudah pernah dikunjungi}
+	if (dikunjungi[nodeForm] == 0) then
+		dikunjungi[nodeForm] == 1
+		hasil.addElement(nodeForm)
+
+
+	{jika node yang dituju sudah ditemukan}
+	if (nodeForm == nodeTo) then
+		return true
+	
+	else
+		{jika tidak ada node yang terhubung ke nodeForm}
+		if (g.getNumOfConnectedNode(nodeForm) == 0) then
+			return false
+
+		else
+			isExist = false;
+			i = 0
+
+			{mengambil node-node yang terhubung ke nodeForm}
+			connectedNode = g.getConnectedNode(nodeForm);
+
+			{mencari node yang bisa belum pernah dikunjungi dari nodeForm, node diurutnkan berdasarkan abjad}
+			i traversal[0 .. connectedNode.Length]
+				if (dikunjungi[connectedNode[i]] == 0) then
+					isExist = true
+					break
+
+			
+			if (isExist) then
+				return dfsExploreFriend(g, connectedNode[i], nodeTo, dikunjungi, hasil)
+
+			else
+				{Melakukan backtracking}
+				hasil.removeLastElement()
+
+				{jika nodeForm sudah kembali ke titik asal dan semua node sudah dikunjungi, 
+				maka jalur dari nodeForm ke nodeTo tidak ditemukan}
+				if (hasil.Length == 0) then
+					return false
+
+				else
+					return dfsExploreFriend(g, hasil.getLastElement(), nodeTo, dikunjungi, hasil)
+
+
+
+
+procedure dfsRecommendation (Graph g, int search)
+
+KAMUS
+
+ALGORITMA
+
+	search1 = search
+
+	{mengambil semua node yang terhubung ke node yang dicari, 
+	artinya node-node ini berteman dengan node search di jejaring sosial}
+	connectedNode = g.getConnectedNode(search1)
+
+	i traversal[0..connectedNode.Length]
+		search2 = connectedNode[i]
