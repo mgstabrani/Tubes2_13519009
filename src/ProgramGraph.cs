@@ -134,7 +134,9 @@ class ProgramGraph{
                 //     dikunjungi[g.getIdxConnectedNode(nodeFrom,i)]--;
                 // }
                 return BFS(g, hasil[hasil.Count-1], nodeTo, ref dikunjungi, ref dibfs,ref hasil);
-            }else{
+            }
+            else
+            {
                 bool isExist = false;
 
                 //Sorting graph
