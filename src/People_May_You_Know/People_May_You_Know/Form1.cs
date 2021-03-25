@@ -595,8 +595,7 @@ namespace People_May_You_Know
             {
                 if (g.getNumOfConnectedNode(nodeFrom) == 0)
                 {
-                    hasil.RemoveAt(hasil.Count - 1);
-                    return dfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref hasil);
+                    return false;
                 }
                 else
                 {
@@ -672,11 +671,7 @@ namespace People_May_You_Know
             {
                 if (g.getNumOfConnectedNode(nodeFrom) == 0)
                 {
-                    hasil.RemoveAt(hasil.Count - 1);
-                    // for(int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++){
-                    //     dikunjungi[g.getIdxConnectedNode(nodeFrom,i)]--;
-                    // }
-                    return bfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref dibfs, true, ref hasil);
+                    return false;
                 }
                 else
                 {
