@@ -16,49 +16,44 @@ public class Graph
         this.connectedNode = new List<List<int>>();
     }
 
-    // public Graph(const Graph& graf){
-    //     this.numOfNode = graf.numOfNode;
-    //     this.node = new List<string>();
-    //     for(int i = 0; i < this.numOfNode; i++){
-    //         mode.Add(graf.node[i]);
-    //     }
-    // }
+    public Graph(List<string> node, List<int> numOfConnect, List<List<int>> connect)
+    {
+        this.numOfNode = node.Count;
 
-    // //     this.numOfConnectedNode = new int[255];
-    // //     for(int i = 0; i < this.numOfNode; i++){
-    // //         this.numOfConnectedNode[i] = graf.numOfConnectedNode[i];
-    // //     }
+        this.node = new List<string>();
+        this.numOfConnectedNode = new List<int>();
+        this.connectedNode = new List<List<int>>();
 
-    // //     this.connectedNode = new int[255][255];
-    // //     for(int i = 0; i < this.numOfNode; i++){
-    // //         for(int j = 0; j < this.numOfConnectedNode[i]; j++){
-    // //             this.connectedNode[i][j] = graf.connectedNode[i][j];
-    // //         }
-    // //     }
-    // // }
+        //this.node.Clear();
+        foreach (string no in node)
+            this.node.Add(no);
 
-    // // public Graph& operator=(const Graph&){
-    // //     this.numOfNode = graf.numOfNode;
-    // //     for(int i = 0; i < this.numOfNode; i++){
-    // //         mode[i] = graf.node[i];
-    // //     }
+        //this.numOfConnectedNode.Clear();
+        foreach (int num in numOfConnect)
+            this.numOfConnectedNode.Add(num);
 
-    // //     for(int i = 0; i < this.numOfNode; i++){
-    // //         this.numOfConnectedNode[i] = graf.numOfConnectedNode[i];
-    // //     }
+        //this.connectedNode.Clear();
+        foreach (List<int> con in connect)
+            this.connectedNode.Add(con);
+    }
 
-    // //     for(int i = 0; i < this.numOfNode; i++){
-    // //         for(int j = 0; j < this.numOfConnectedNode[i]; j++){
-    // //             this.connectedNode[i][j] = graf.connectedNode[i][j];
-    // //         }
-    // //     }
-    // // }
+    /*
+    public void setNode(List<string> node)
+    {
+        this.node = node;
+        this.numOfNode = node.Count;
+    }
 
-    // public ~Graph(){
-    //     delete this.node;
-    //     delete this.numOfConnectedNode;
-    //     delete this.connectedNode;
-    // }
+    public void setNumOfConnectedNode(List<int> numOfConnectedNode)
+    {
+        this.numOfConnectedNode = numOfConnectedNode;
+    }
+
+    public void setConnectedNode(List<List<int>> connectedNode)
+    {
+        this.connectedNode = connectedNode;
+    }
+    */
 
     public void addNode(string node)
     {
@@ -77,6 +72,26 @@ public class Graph
     {
         this.numOfConnectedNode[idxNode]++;
         this.connectedNode[idxNode].Add(idxConnectNode);
+    }
+
+    public List<int> getListConnectedNode(int idxNode)
+    {
+        return connectedNode[idxNode];
+    }
+
+    public List<List<int>> getListListConnectedNode()
+    {
+        return connectedNode;
+    }
+
+    public List<int> getListNumOfConnectedNode()
+    {
+        return numOfConnectedNode;
+    }
+
+    public List<string> getListNode()
+    {
+        return node;
     }
 
     public int getNumOfNode()

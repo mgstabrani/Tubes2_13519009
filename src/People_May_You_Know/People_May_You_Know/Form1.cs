@@ -50,6 +50,7 @@ namespace People_May_You_Know
 
                 if (graphReady)
                 {
+                    resetGraphVisualization();
                     showGraphVisualization(globalGraph);
                     setNodeDropDownList(globalGraph);
                     
@@ -152,9 +153,11 @@ namespace People_May_You_Know
 
             //Console.Out.WriteLine("Submit!!");
 
+            //resetGraphNodeVisualizationColor();
+
             if (algorithm == "bfs")
             {
-                bfsRecommendationFriends(globalGraph, accountNodeDropDown.SelectedIndex);
+                dfsRecommendationFriends(globalGraph, accountNodeDropDown.SelectedIndex);
                 exploreFriendWith(globalGraph, accountNodeDropDown.SelectedIndex, exploreNodeDropDown.SelectedIndex);
             }
             else if (algorithm == "dfs")
@@ -178,6 +181,95 @@ namespace People_May_You_Know
 
         public void dfsRecommendationFriends(Graph g, int search)
         {
+            int search1 = search;
+            int numOf1 = g.getNumOfConnectedNode(search1);
+
+            Graph gHasil = new Graph();
+            List<int> searchChild = g.getListConnectedNode(search1);
+            for(int i = 0; i < numOf1; i++)
+            {
+                int search2 = g.getIdxConnectedNode(search1, i);
+                int numOf2 = g.getNumOfConnectedNode(search2);
+                
+                for (int j = 0; j < numOf2; j++)
+                {
+                    int idxRecNode = g.getIdxConnectedNode(search2, j);
+                    
+                    if (idxRecNode == search1 || searchChild.Contains(idxRecNode))
+                        continue;
+                    
+                    string recNode = g.getNode(idxRecNode);
+                    int idx = gHasil.getIdxNode(recNode);
+
+                    if (idx == -1)
+                    {
+                        gHasil.addNode(recNode);
+                    }
+
+                    idx = gHasil.getIdxNode(recNode);
+
+                    gHasil.addConnectedNode(idx, search2);
+                }
+            }
+            //gHasil.print();
+            //Console.WriteLine("---------------");
+
+            if (gHasil.getNumOfNode() > 1)
+            {
+                int num = gHasil.getNumOfNode();
+                List<string> nodeTemp = gHasil.getListNode();
+                List<int> numOfConnectedNodeTemp = gHasil.getListNumOfConnectedNode();
+                List<List<int>> connectedNodeTemp = gHasil.getListListConnectedNode();
+
+                for (int i = 0; i < num - 1; i++)
+                {
+                    int idxMax = i;
+                    for (int j = i + 1; j < num; j++)
+                    {
+                        if (numOfConnectedNodeTemp[idxMax] < numOfConnectedNodeTemp[j])
+                            idxMax = j;
+                    }
+
+                    string tempNode = nodeTemp[i];
+                    nodeTemp[i] = nodeTemp[idxMax];
+                    nodeTemp[idxMax] = tempNode;
+
+                    int tempNumOfMutual = numOfConnectedNodeTemp[i];
+                    numOfConnectedNodeTemp[i] = numOfConnectedNodeTemp[idxMax];
+                    numOfConnectedNodeTemp[idxMax] = tempNumOfMutual;
+
+                    List<int> tempMutual = connectedNodeTemp[i];
+                    connectedNodeTemp[i] = connectedNodeTemp[idxMax];
+                    connectedNodeTemp[idxMax] = tempMutual;
+                }
+
+                /*
+                Graph gHasilTemp = new Graph();
+
+                foreach (string no in nodeTemp)
+                    gHasilTemp.addNode(no);
+
+                for (int i = 0; i < numOfConnectedNodeTemp.Count; i++)
+                {
+                    int numtemp = numOfConnectedNodeTemp[i];
+                    for (int j = 0; j < numtemp; j++)
+                    {
+                        gHasilTemp.addConnectedNode(i, connectedNodeTemp[i][j]);
+                    }
+                }
+
+                gHasilTemp.print();
+
+                //Graph gHasil2 = new Graph();
+
+                //foreach(string no in Node)
+                */
+                gHasil = new Graph(nodeTemp, numOfConnectedNodeTemp, connectedNodeTemp);
+            }
+            
+           
+            showRecommendation(g, gHasil);
+            
 
         }
 
@@ -311,12 +403,61 @@ namespace People_May_You_Know
             
         }
 
+
+        public void changeGraphNodeVisualizationColor(List<int> node)
+        {
+            resetGraphNodeVisualizationColor();
+            for(int i = 0; i < node.Count; i++)
+            {
+                string nodeName = globalGraph.getNode(node[i]);
+
+                if (gViewer1.Graph.FindNode(nodeName).Attr.FillColor != Microsoft.Msagl.Drawing.Color.Magenta)
+                {
+                    gViewer1.Graph.FindNode(nodeName).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Magenta;
+                }
+
+                if (i != node.Count-1)
+                {
+                    string node2 = globalGraph.getNode(node[i + 1]);
+                    foreach(var edge in gViewer1.Graph.Edges)
+                    {
+                        if ((edge.SourceNode.LabelText == nodeName && edge.TargetNode.LabelText == node2) || 
+                            (edge.SourceNode.LabelText == node2 && edge.TargetNode.LabelText == nodeName))
+                        {
+                            edge.Attr.Color = Microsoft.Msagl.Drawing.Color.Blue;
+                        }
+
+                        //Console.WriteLine(edge.SourceNode.LabelText + " --- " + edge.TargetNode.LabelText);
+                    }
+                }
+            }
+
+            gViewer1.Refresh();
+        }
+
+        public void resetGraphNodeVisualizationColor()
+        {
+            for(int i = 0; i < globalGraph.getNumOfNode(); i++)
+            {
+                string node = globalGraph.getNode(i);
+                gViewer1.Graph.FindNode(node).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Cyan;
+            }
+
+            foreach (var edge in gViewer1.Graph.Edges)
+            {
+                edge.Attr.Color = Microsoft.Msagl.Drawing.Color.DarkOrange;
+            }
+
+            gViewer1.Refresh();
+        }
+
+
         public void showGraphVisualization(Graph g)
         {
             visGraphLabel.Visible = false;
 
             //create a viewer object 
-            Microsoft.Msagl.GraphViewerGdi.GViewer viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
+            //Microsoft.Msagl.GraphViewerGdi.GViewer viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
             //create a graph object 
             Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
 
@@ -341,11 +482,11 @@ namespace People_May_You_Know
                 }
             }
 
-            
-            viewer.Graph = graph;
-            viewer.Dock = System.Windows.Forms.DockStyle.Fill;
 
-            graphVisualizationPanel.Controls.Add(viewer);
+            //viewer.Graph = graph;
+            //viewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            gViewer1.Graph = graph;
+            //graphVisualizationPanel.Controls.Add(viewer);
         }
 
         public void showRecommendation(Graph g, Graph gRec)
@@ -368,7 +509,7 @@ namespace People_May_You_Know
 
                 for (int j = 0; j < numOfMutual_i; j++)
                 {
-                    int idx = g.getIdxConnectedNode(i, j);
+                    int idx = gRec.getIdxConnectedNode(i, j);
                     mutualRec += g.getNode(idx);
 
                     if (j != numOfMutual_i - 1)
@@ -391,7 +532,7 @@ namespace People_May_You_Know
 
         public void resetExplorer()
         {
-            exploreLabel.Text = "explore";
+            exploreLabel.Text = " Path is not found!";
         }
 
         public void resetRecommendationPanel()
@@ -418,7 +559,7 @@ namespace People_May_You_Know
             
             if (algorithm == "bfs")
             {
-                bfsExploreFriend(globalGraph, awal, akhir, ref kunjung, ref dibfs, ref result);
+                bfsExploreFriend(globalGraph, awal, akhir, ref kunjung, ref dibfs, false, ref result);
             }
             else
             {
@@ -434,6 +575,7 @@ namespace People_May_You_Know
             {
                 dikunjungi[nodeFrom] = 1;
                 hasil.Add(nodeFrom);
+                changeGraphNodeVisualizationColor(hasil);
             }
             if (nodeFrom == nodeTo)
             {
@@ -479,16 +621,20 @@ namespace People_May_You_Know
             }
         }
 
-        public bool bfsExploreFriend(Graph g, int nodeFrom, int nodeTo, ref List<int> dikunjungi, ref List<int> dibfs, ref List<int> hasil)
+        public bool bfsExploreFriend(Graph g, int nodeFrom, int nodeTo, ref List<int> dikunjungi, ref List<int> dibfs, bool timeToReset,ref List<int> hasil)
         {
             if (dikunjungi[nodeFrom] == 0)
             {
                 dikunjungi[nodeFrom] = 1;
                 hasil.Add(nodeFrom);
+                changeGraphNodeVisualizationColor(hasil);
             }
-            // for(int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++){
-            //     dibfs[g.getIdxConnectedNode(nodeFrom,i)] = 0;
-            // }
+
+            if (timeToReset)
+                for(int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++){
+                     dibfs[g.getIdxConnectedNode(nodeFrom,i)] = 0;
+                    //Console.WriteLine("----" + g.getNode(g.getIdxConnectedNode(nodeFrom, i)));
+                }
 
             if (isAllVisited(dikunjungi))
             {
@@ -506,7 +652,7 @@ namespace People_May_You_Know
                     // for(int i = 0; i < g.getNumOfConnectedNode(nodeFrom); i++){
                     //     dikunjungi[g.getIdxConnectedNode(nodeFrom,i)]--;
                     // }
-                    return bfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref dibfs, ref hasil);
+                    return bfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref dibfs, true, ref hasil);
                 }
                 else
                 {
@@ -543,11 +689,15 @@ namespace People_May_You_Know
                     if (!isExist)
                     {
                         hasil.RemoveAt(hasil.Count - 1);
-                        return bfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref dibfs, ref hasil);
+
+                        if (hasil.Count != 0)
+                            return bfsExploreFriend(g, hasil[hasil.Count - 1], nodeTo, ref dikunjungi, ref dibfs, true, ref hasil);
+                        else
+                            return bfsExploreFriend(g, nodeFrom, nodeTo, ref dikunjungi, ref dibfs, true, ref hasil);
                     }
                     else
                     {
-                        return bfsExploreFriend(g, g.getIdxNode(connectNodes[i]), nodeTo, ref dikunjungi, ref dibfs, ref hasil);
+                        return bfsExploreFriend(g, g.getIdxNode(connectNodes[i]), nodeTo, ref dikunjungi, ref dibfs, false, ref hasil);
                     }
                 }
 
@@ -630,10 +780,13 @@ namespace People_May_You_Know
         }
 
         public void resetGraphVisualization()
-        { 
+        {
+            /*
             graphVisualizationPanel.Controls.Clear();
             visGraphLabel.Visible = true;
             graphVisualizationPanel.Controls.Add(visGraphLabel);
+            */
+            gViewer1.Graph = null;
         }
 
         public System.Windows.Forms.Panel createPanelRec(string node, string mutual)

@@ -1,0 +1,16 @@
+15
+tabrani,fatur
+tabrani,yudi
+tabrani,pak munir
+fatur,yudi
+fatur,pak rinaldi
+fatur,buk fariska
+yudi,pak infal
+pak rinaldi,pak infal
+pak rinaldi,pak munir
+pak infal,pak ahmad
+pak ahmad,pak rila
+pak ahmad,buk fariska
+pak rila,pak munir
+pak rila,buk fariska
+buk fariska,pak munir
