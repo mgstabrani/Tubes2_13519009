@@ -45,7 +45,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel9 = new System.Windows.Forms.Panel();
             this.panel8 = new System.Windows.Forms.Panel();
-            this.exploreLabel = new System.Windows.Forms.Label();
+            this.exploreTextBox = new System.Windows.Forms.TextBox();
             this.panel7 = new System.Windows.Forms.Panel();
             this.alertLabel = new System.Windows.Forms.Label();
             this.panel6 = new System.Windows.Forms.Panel();
@@ -54,10 +54,10 @@
             this.bfsDfsPanel = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.graphVisualizationPanel = new System.Windows.Forms.Panel();
+            this.gViewer1 = new Microsoft.Msagl.GraphViewerGdi.GViewer();
             this.visGraphLabel = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.filePathText = new System.Windows.Forms.TextBox();
-            this.gViewer1 = new Microsoft.Msagl.GraphViewerGdi.GViewer();
             this.panel1.SuspendLayout();
             this.panel9.SuspendLayout();
             this.panel8.SuspendLayout();
@@ -232,27 +232,28 @@
             // panel8
             // 
             this.panel8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.panel8.Controls.Add(this.exploreLabel);
+            this.panel8.Controls.Add(this.exploreTextBox);
             this.panel8.Controls.Add(this.label6);
-            this.panel8.Location = new System.Drawing.Point(8, 224);
+            this.panel8.Location = new System.Drawing.Point(8, 207);
             this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(480, 50);
+            this.panel8.Size = new System.Drawing.Size(480, 67);
             this.panel8.TabIndex = 25;
             // 
-            // exploreLabel
+            // exploreTextBox
             // 
-            this.exploreLabel.AutoSize = true;
-            this.exploreLabel.Location = new System.Drawing.Point(3, 27);
-            this.exploreLabel.Name = "exploreLabel";
-            this.exploreLabel.Size = new System.Drawing.Size(42, 13);
-            this.exploreLabel.TabIndex = 20;
-            this.exploreLabel.Text = "Explore";
+            this.exploreTextBox.Location = new System.Drawing.Point(6, 16);
+            this.exploreTextBox.Multiline = true;
+            this.exploreTextBox.Name = "exploreTextBox";
+            this.exploreTextBox.ReadOnly = true;
+            this.exploreTextBox.Size = new System.Drawing.Size(471, 48);
+            this.exploreTextBox.TabIndex = 20;
+            this.exploreTextBox.Text = "Explore\r\n";
             // 
             // panel7
             // 
             this.panel7.Controls.Add(this.alertLabel);
             this.panel7.Controls.Add(this.submitButton);
-            this.panel7.Location = new System.Drawing.Point(8, 151);
+            this.panel7.Location = new System.Drawing.Point(8, 141);
             this.panel7.Name = "panel7";
             this.panel7.Size = new System.Drawing.Size(480, 50);
             this.panel7.TabIndex = 24;
@@ -327,34 +328,6 @@
             this.graphVisualizationPanel.Size = new System.Drawing.Size(480, 641);
             this.graphVisualizationPanel.TabIndex = 11;
             // 
-            // visGraphLabel
-            // 
-            this.visGraphLabel.AutoSize = true;
-            this.visGraphLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.visGraphLabel.Location = new System.Drawing.Point(182, 314);
-            this.visGraphLabel.Name = "visGraphLabel";
-            this.visGraphLabel.Size = new System.Drawing.Size(116, 13);
-            this.visGraphLabel.TabIndex = 0;
-            this.visGraphLabel.Text = "Graph Visualization";
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.panel3.Controls.Add(this.filePathText);
-            this.panel3.Controls.Add(this.label2);
-            this.panel3.Controls.Add(this.browseButton);
-            this.panel3.Location = new System.Drawing.Point(12, 12);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(480, 50);
-            this.panel3.TabIndex = 10;
-            // 
-            // filePathText
-            // 
-            this.filePathText.Location = new System.Drawing.Point(87, 23);
-            this.filePathText.Name = "filePathText";
-            this.filePathText.Size = new System.Drawing.Size(380, 20);
-            this.filePathText.TabIndex = 6;
-            // 
             // gViewer1
             // 
             this.gViewer1.ArrowheadLength = 10D;
@@ -394,6 +367,34 @@
             this.gViewer1.WindowZoomButtonPressed = false;
             this.gViewer1.ZoomF = 1D;
             this.gViewer1.ZoomWindowThreshold = 0.05D;
+            // 
+            // visGraphLabel
+            // 
+            this.visGraphLabel.AutoSize = true;
+            this.visGraphLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.visGraphLabel.Location = new System.Drawing.Point(182, 314);
+            this.visGraphLabel.Name = "visGraphLabel";
+            this.visGraphLabel.Size = new System.Drawing.Size(116, 13);
+            this.visGraphLabel.TabIndex = 0;
+            this.visGraphLabel.Text = "Graph Visualization";
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.panel3.Controls.Add(this.filePathText);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.browseButton);
+            this.panel3.Location = new System.Drawing.Point(12, 12);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(480, 50);
+            this.panel3.TabIndex = 10;
+            // 
+            // filePathText
+            // 
+            this.filePathText.Location = new System.Drawing.Point(87, 23);
+            this.filePathText.Name = "filePathText";
+            this.filePathText.Size = new System.Drawing.Size(380, 20);
+            this.filePathText.TabIndex = 6;
             // 
             // main
             // 
@@ -456,11 +457,11 @@
         private System.Windows.Forms.Panel panel5;
         private System.Windows.Forms.Panel panel7;
         private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Label exploreLabel;
         private System.Windows.Forms.Panel panel9;
         private System.Windows.Forms.Label visGraphLabel;
         private System.Windows.Forms.Label alertLabel;
         private Microsoft.Msagl.GraphViewerGdi.GViewer gViewer1;
+        private System.Windows.Forms.TextBox exploreTextBox;
     }
 }
 

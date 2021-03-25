@@ -25,6 +25,7 @@ namespace People_May_You_Know
         {
             InitializeComponent();
             alertLabel.Text = "";
+            //exploreTextBox.Text = "Hello, World!";
         }
         
 
@@ -47,7 +48,7 @@ namespace People_May_You_Know
                 
                 filePathText.Text = fdlg.FileName;
                 convertToGraph(filePathText.Text);
-
+                exploreTextBox.Text = "Explore";
                 if (graphReady)
                 {
                     resetGraphVisualization();
@@ -532,7 +533,7 @@ namespace People_May_You_Know
 
         public void resetExplorer()
         {
-            exploreLabel.Text = " Path is not found!";
+            exploreTextBox.Text = "Path is not found!";
         }
 
         public void resetRecommendationPanel()
@@ -768,7 +769,7 @@ namespace People_May_You_Know
 
             ex += ", " + degree + th + " degree";
 
-            exploreLabel.Text = ex;
+            exploreTextBox.Text = ex;
         }
 
         public void printList(List<int> l)
