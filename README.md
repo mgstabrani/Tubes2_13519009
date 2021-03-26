@@ -12,8 +12,8 @@ Pada friend recommendation, yang dicari adalah friend recommendation dari simpul
 Sistem Operasi : Windows
 ## Cara menggunakan program
 - download/clone https://github.com/mochfatchur/Tubes2_13519009.git
-- extract file People_May_You_Know.zip yang berada di folder bin
-- run People_May_You_Know.exe
+- extract file **People_May_You_Know.zip** yang berada di folder bin
+- run **People_May_You_Know.exe**
 ## Author / identitas pembuat
 - [Mochammd Fatchur Rochman (13519009)](https://github.com/mochfatchur)
 - [Yudi Alfayat (13519051)](https://github.com/yudialfayat)
