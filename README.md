@@ -9,8 +9,11 @@ Pada algoritma explore friends dengan pendekatan DFS, simpul yang menjadi asal a
 ### Friend Recommendation
 Pada friend recommendation, yang dicari adalah friend recommendation dari simpul awal yang dipilih di explore friend. Algoritma ini mulanya akan mencari simpul-simpul tetangga dari simpul awal. Kemudian, simpul-simpul tetangga tersebut akan mencari simpul-simpul tetangga mereka sebagai friend recommendation untuk simpul awal. Kemudian simpul-simpul yang dijadikan friend recommendation tadi akan diurutkan berdasarkan mutual friend dengan simpul awal atau jumlah simpul tetangga yang sama dengan simpul awal.
 ## Requirement program dan instalasi
+Sistem Operasi : Windows
 ## Cara menggunakan program
-
+- download/clone https://github.com/mochfatchur/Tubes2_13519009.git
+- extract file People_May_You_Know.zip yang berada di folder bin
+- run People_May_You_Know.exe
 ## Author / identitas pembuat
 - [Mochammd Fatchur Rochman (13519009)](https://github.com/mochfatchur)
 - [Yudi Alfayat (13519051)](https://github.com/yudialfayat)
