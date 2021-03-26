@@ -113,11 +113,17 @@ ALGORITMA
 
 
 
-procedure dfsRecommendation (Graph g, int search)
+
+procedure dfsRecommendation (Graph g, int search) : Graph
 
 KAMUS
-
+	int search1, search2
+	int numOf2 
+	ListInt connectedNode
 ALGORITMA
+	
+	Graph gHasil;
+
 
 	search1 = search
 
@@ -127,3 +133,29 @@ ALGORITMA
 
 	i traversal[0..connectedNode.Length]
 		search2 = connectedNode[i]
+		numOf2 = g.getConnectedNode(search2)
+
+		j traversal[0..numOf2]
+			idxRecommendationNode = g.getIdxConnectedNode(search2, j);
+
+			{Jika node yang terhubung dengan teman node search, dan node tersebut juga teman dari node search, maka node tersebut akan diskip}
+			if (idxRecmmendation == search1 and connectedNode.isContais(idxRecommendationNoe)) then
+				continue
+
+			idx = gHasil.getIdxNode(idxRecommendationNode)
+
+			{jika node yang direkomendasikan belum ada di graph rekomendasi}
+			if (idx == -1) then
+				gHasil.addNode(idxRecommendationNode)
+			
+			idx = gHasil.getIdxNode(idxRecommendationNode)
+
+			{maka Teman dari node search akan dimasukkan sebagai mutual friend}
+			ghasil.addConnectedNode(idx, search2)
+
+
+	{Dilakukan sorting terhadap graph yang berisi rekomendasi tersebut, berdasarkan jumlah mutual friendnya}
+	gHasil.sort()
+
+
+	return Graph
